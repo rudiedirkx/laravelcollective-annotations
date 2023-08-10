@@ -2,26 +2,15 @@
     "name": "rdx/laravelcollective-annotations",
     "description": "Route Annotations for The Laravel Framework.",
     "license": "MIT",
-    "homepage": "http://laravelcollective.com",
     "support": {
-        "issues": "https://github.com/LaravelCollective/annotations/issues",
-        "source": "https://github.com/LaravelCollective/annotations"
+        "issues": "https://github.com/rudiedirkx/laravelcollective-annotations/issues",
+        "source": "https://github.com/rudiedirkx/laravelcollective-annotations/annotations"
     },
     "replace": {
         "laravelcollective/annotations": "self.version"
     },
-    "authors": [
-        {
-            "name": "Adam Engebretson",
-            "email": "adam@enge.me"
-        },
-        {
-            "name": "Taylor Otwell",
-            "email": "taylorotwell@gmail.com"
-        }
-    ],
     "require": {
-        "php": "^7.3|^8.0",
+        "php": "^7.3 || ^8.0",
         "illuminate/console": "^8.0 || ^9.0 || ^10.0",
         "illuminate/filesystem": "^8.0 || ^9.0 || ^10.0",
         "illuminate/support": "^8.0 || ^9.0 || ^10.0",
