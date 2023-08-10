@@ -1,11 +1,14 @@
 {
-    "name": "laravelcollective/annotations",
+    "name": "rdx/laravelcollective-annotations",
     "description": "Route Annotations for The Laravel Framework.",
     "license": "MIT",
     "homepage": "http://laravelcollective.com",
     "support": {
         "issues": "https://github.com/LaravelCollective/annotations/issues",
         "source": "https://github.com/LaravelCollective/annotations"
+    },
+    "replace": {
+        "laravelcollective/annotations": "self.version"
     },
     "authors": [
         {
@@ -32,11 +35,6 @@
     "autoload": {
         "psr-4": {
             "Collective\\Annotations\\": "src/"
-        }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "8.0-dev"
         }
     },
     "minimum-stability": "dev"
