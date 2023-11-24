@@ -1,4 +1,4 @@
-# This is a `laravelcollective/annotations` drop-in replacement
+**This is a `laravelcollective/annotations` drop-in replacement**
 
 To use this package instead of `laravelcollective/annotations` as a perfect drop-in replacement, do this in your project:
 
