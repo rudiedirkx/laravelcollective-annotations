@@ -16,8 +16,7 @@ and all other packages will believe `laravelcollective/annotations` is installed
 3. Run Rector **with debug enabled**, see command below.
 4. Manually fix skipped conversions due to complicated annotation syntax, see complicated example below.
 5. Run your cs fixer to import all FQCN, see `php-cs-fixer` rule below.
-6. Set `$useAttribute` to `true` in your `AnnotationsServiceProvider`, run `route:scan`, and see if all
-    that worked.
+6. Remove `$useAttributes` from your `AnnotationsServiceProvider`, because that doesn't exist anymore.
 
 ### Example Rector config
 

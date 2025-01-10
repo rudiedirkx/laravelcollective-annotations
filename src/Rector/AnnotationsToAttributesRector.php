@@ -96,6 +96,7 @@ class AnnotationsToAttributesRector extends AbstractRector {
 		$attrName = explode('(', $annotation)[0];
 		$namespace = in_array($attrName, self::MODEL_ANNOTATIONS) ? self::MODEL_NAMESPACE : self::ROUTE_NAMESPACE;
 		$annotation = preg_replace('#, (\w+)=#', ', $1: ', $annotation);
+		$annotation = preg_replace('#\((\w+)=#', '($1: ', $annotation);
 		$attrClass = sprintf('%s\%s', $namespace, $annotation);
 		$node->attrGroups[] = new AttributeGroup([new Attribute(new FullyQualified($attrClass))]);
 		return true;
