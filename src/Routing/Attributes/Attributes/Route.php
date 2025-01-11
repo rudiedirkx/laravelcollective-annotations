@@ -6,6 +6,10 @@ use Collective\Annotations\Routing\Annotations\Annotations\Route as BaseRoute;
 
 abstract class Route extends BaseRoute
 {
+    /**
+     * @param ?list<string> $middleware
+     * @param ?array<string, string> $where
+     */
     public function __construct(
         string $path,
         ?string $as = null,

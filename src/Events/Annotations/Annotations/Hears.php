@@ -10,18 +10,18 @@ class Hears
     /**
      * The events the annotation hears.
      *
-     * @var array
+     * @var list<string>
      */
     public $events;
 
     /**
      * Create a new annotation instance.
      *
-     * @param array $values
+     * @param array{value: string|list<string>} $values
      *
      * @return void
      */
-    public function __construct(array $values = [])
+    public function __construct(array $values)
     {
         $this->events = (array) $values['value'];
     }

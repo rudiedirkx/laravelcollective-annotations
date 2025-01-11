@@ -25,8 +25,9 @@ class Path extends AbstractPath
      * @param string $domain
      * @param string $path
      * @param string $as
-     * @param array  $middleware
-     * @param array  $where
+     * @param list<string> $middleware
+     * @param array<string, string> $where
+     * @param bool $no_prefix
      *
      * @return void
      */

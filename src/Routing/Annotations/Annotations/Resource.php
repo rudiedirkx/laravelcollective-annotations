@@ -22,7 +22,7 @@ class Resource extends Meta
     /**
      * All of the resource controller methods.
      *
-     * @var array
+     * @var list<string>
      */
     protected $methods = ['index', 'create', 'store', 'show', 'edit', 'update', 'destroy'];
 
@@ -43,7 +43,7 @@ class Resource extends Meta
      *
      * @param EndpointCollection $endpoints
      *
-     * @return array
+     * @return array<string, list<string>>
      */
     protected function getMiddleware(EndpointCollection $endpoints): array
     {
@@ -56,7 +56,7 @@ class Resource extends Meta
      * @param EndpointCollection $endpoints
      * @param string $key
      *
-     * @return array
+     * @return array<string, list<string>>
      */
     protected function extractFromEndpoints(EndpointCollection $endpoints, string $key): array
     {
@@ -77,13 +77,12 @@ class Resource extends Meta
      *
      * @param EndpointCollection $endpoints
      *
-     * @return array
+     * @return array<MethodEndpoint>
      */
     protected function getEndpointsWithResourceMethods(EndpointCollection $endpoints): array
     {
         return Collection::make($endpoints)->filter(function ($endpoint) {
-            return $endpoint instanceof MethodEndpoint &&
-                    in_array($endpoint->method, $this->methods);
+            return $endpoint instanceof MethodEndpoint && in_array($endpoint->method, $this->methods);
         })->all();
     }
 }

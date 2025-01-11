@@ -16,7 +16,7 @@ class Scanner extends BaseScanner
     /**
      * Create a new scanner instance.
      *
-     * @param array $scan
+     * @param list<class-string> $scan
      * @param ScanStrategyInterface $strategy
      */
     public function __construct(ScanStrategyInterface $strategy, array $scan = [])
@@ -46,6 +46,7 @@ class Scanner extends BaseScanner
      * Give information about the scanned annotations/attributes related to route definition.
      *
      * @throws ReflectionException
+     * @return list<AssocArray>
      */
     public function getRouteDefinitionsDetail(): array
     {

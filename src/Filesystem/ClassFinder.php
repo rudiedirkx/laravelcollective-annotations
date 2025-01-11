@@ -10,7 +10,7 @@ class ClassFinder
      * Find all the class and interface names in a given directory.
      *
      * @param  string  $directory
-     * @return array
+     * @return list<string>
      */
     public function findClasses($directory)
     {
@@ -45,7 +45,7 @@ class ClassFinder
      * Find the namespace in the tokens starting at a given key.
      *
      * @param  int  $key
-     * @param  array  $tokens
+     * @param  list<string|array{int, string, int}> $tokens
      * @return string|null
      */
     protected function getNamespace($key, array $tokens)
@@ -66,7 +66,7 @@ class ClassFinder
      * Find the class in the tokens starting at a given key.
      *
      * @param  int  $key
-     * @param  array  $tokens
+     * @param  list<string|array{int, string, int}> $tokens
      * @return string|null
      */
     protected function getClass($key, array $tokens)
@@ -86,7 +86,7 @@ class ClassFinder
     /**
      * Determine if the given token is a namespace keyword.
      *
-     * @param  array|string  $token
+     * @param  string|array{int, string, int} $token
      * @return bool
      */
     protected function tokenIsNamespace($token)
@@ -97,7 +97,7 @@ class ClassFinder
     /**
      * Determine if the given token is a class or interface keyword.
      *
-     * @param  array|string  $token
+     * @param  string|array{int, string, int} $token
      * @return bool
      */
     protected function tokenIsClassOrInterface($token)
@@ -108,7 +108,7 @@ class ClassFinder
     /**
      * Determine if the given token is part of the namespace.
      *
-     * @param  array|string  $token
+     * @param  string|array{int, string, int} $token
      * @return bool
      */
     protected function isPartOfNamespace($token)
@@ -125,7 +125,7 @@ class ClassFinder
     /**
      * Determine if the given token is part of the class.
      *
-     * @param  array|string  $token
+     * @param  string|array{int, string, int} $token
      * @return bool
      */
     protected function isPartOfClass($token)
@@ -136,7 +136,7 @@ class ClassFinder
     /**
      * Determine if the given token is whitespace.
      *
-     * @param  array|string  $token
+     * @param  string|array{int, string, int} $token
      * @return bool
      */
     protected function isWhitespace($token)

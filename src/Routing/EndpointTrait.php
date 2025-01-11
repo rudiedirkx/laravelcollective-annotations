@@ -8,7 +8,7 @@ trait EndpointTrait
      * Determine if the middleware applies to a given method.
      *
      * @param string $method
-     * @param array  $middleware
+     * @param array{name: string, only: list<string>, except: list<string>} $middleware
      *
      * @return bool
      */
@@ -38,7 +38,7 @@ trait EndpointTrait
     /**
      * Implode the given list into a comma separated string.
      *
-     * @param array $array
+     * @param array<int|string, string> $array
      *
      * @return string
      */

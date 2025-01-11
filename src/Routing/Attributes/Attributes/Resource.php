@@ -8,6 +8,11 @@ use Collective\Annotations\Routing\Annotations\Annotations\Resource as BaseResou
 #[Attribute(Attribute::TARGET_CLASS | Attribute::IS_REPEATABLE)]
 class Resource extends BaseResource
 {
+    /**
+     * @param ?list<string> $only
+     * @param ?list<string> $except
+     * @param ?list<string> $names
+     */
     public function __construct(
         string $name,
         ?array $only = null,

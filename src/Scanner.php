@@ -10,14 +10,14 @@ class Scanner
     /**
      * The paths to scan for annotations.
      *
-     * @var array
+     * @var list<class-string>
      */
     protected $scan = [];
 
     /**
      * Get all of the ReflectionClass instances in the scan array.
      *
-     * @return ReflectionClass[]
+     * @return list<ReflectionClass>
      */
     protected function getClassesToScan(): array
     {
@@ -26,7 +26,7 @@ class Scanner
         foreach ($this->scan as $class) {
             try {
                 $classes[] = new ReflectionClass($class);
-            } catch (ReflectionException $e) {
+            } catch (ReflectionException $e) { // @phpstan-ignore catch.neverThrown
                 //
             }
         }
@@ -37,7 +37,8 @@ class Scanner
     /**
      * Set the classes to scan.
      *
-     * @param array $scans
+     * @param list<class-string> $scans
+     * @return void
      */
     public function setClassesToScan(array $scans)
     {

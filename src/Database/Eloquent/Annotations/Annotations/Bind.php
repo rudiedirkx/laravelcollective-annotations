@@ -33,11 +33,11 @@ class Bind implements BindInterface
     /**
      * Create a new annotation instance.
      *
-     * @param array $values
+     * @param array{value: string, digits?: bool, pattern?: string} $values
      *
      * @return void
      */
-    public function __construct(array $values = [])
+    public function __construct(array $values)
     {
         $this->binding = $values['value'];
         $this->digits = $values['digits'] ?? false;

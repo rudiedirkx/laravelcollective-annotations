@@ -14,7 +14,7 @@ interface EndpointInterface
     /**
      * Get the detail about endpoint that helps to create route definition.
      *
-     * @return array
+     * @return list<AssocArray>
      */
     public function toRouteDefinitionDetail(): array;
 

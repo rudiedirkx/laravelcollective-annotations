@@ -9,7 +9,7 @@ class ResourcePath extends AbstractPath
     /**
      * The controller method of the resource path.
      *
-     * @param string $method
+     * @var string
      */
     public $method;
 

@@ -97,7 +97,7 @@ class RouteScanCommand extends Command
     /**
      * Get the console command options.
      *
-     * @return array
+     * @return list<list<mixed>>
      */
     protected function getOptions()
     {

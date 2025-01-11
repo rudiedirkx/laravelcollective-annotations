@@ -24,7 +24,7 @@ class AnnotationsServiceProvider extends ServiceProvider
     /**
      * The commands to be registered.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $commands = [
       'EventScan' => 'command.event.scan',
@@ -35,28 +35,28 @@ class AnnotationsServiceProvider extends ServiceProvider
     /**
      * The classes to scan for event annotations.
      *
-     * @var array
+     * @var list<string>
      */
     protected $scanEvents = [];
 
     /**
      * The classes to scan for route annotations.
      *
-     * @var array
+     * @var list<string>
      */
     protected $scanRoutes = [];
 
     /**
      * The classes to scan for model binding annotations.
      *
-     * @var array
+     * @var list<string>
      */
     protected $scanModels = [];
 
     /**
      * The namespace to scan for models in.
      *
-     * @var string
+     * @var ?string
      */
     protected $scanModelsInNamespace = null;
 
@@ -179,6 +179,9 @@ class AnnotationsServiceProvider extends ServiceProvider
         });
     }
 
+    /**
+     * @return void
+     */
     protected function determineStrategy()
     {
         $this->app->bind(ModelScanStrategy::class, ModelScanAttributeStrategy::class);
@@ -379,7 +382,7 @@ class AnnotationsServiceProvider extends ServiceProvider
     /**
      * Get the classes to be scanned by the provider.
      *
-     * @return array
+     * @return list<string>
      */
     public function eventScans()
     {
@@ -393,7 +396,7 @@ class AnnotationsServiceProvider extends ServiceProvider
     /**
      * Get the classes to be scanned by the provider.
      *
-     * @return array
+     * @return list<string>
      */
     public function routeScans()
     {
@@ -417,7 +420,7 @@ class AnnotationsServiceProvider extends ServiceProvider
     /**
      * Get the classes to be scanned by the provider.
      *
-     * @return array
+     * @return list<string>
      */
     public function modelScans()
     {
@@ -459,7 +462,7 @@ class AnnotationsServiceProvider extends ServiceProvider
      * @param string $namespace the namespace to search
      * @param ?string $base
      *
-     * @return array
+     * @return list<string>
      */
     public function getClassesFromNamespace($namespace, $base = null)
     {
@@ -471,7 +474,7 @@ class AnnotationsServiceProvider extends ServiceProvider
     /**
      * Get a list of classes in the root namespace.
      *
-     * @return array
+     * @return list<string>
      */
     protected function getAllClasses()
     {
