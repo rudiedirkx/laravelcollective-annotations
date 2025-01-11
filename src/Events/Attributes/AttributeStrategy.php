@@ -16,10 +16,7 @@ class AttributeStrategy implements ScanStrategyInterface
     {
         return array_map(
             fn (ReflectionAttribute $attribute) => $attribute->newInstance()->events,
-            array_filter(
-                $method->getAttributes(),
-                fn (ReflectionAttribute $attribute) => $attribute->getName() == Hears::class
-            ),
+            $method->getAttributes(Hears::class),
         );
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Collective\Annotations\Routing;
 
+use RuntimeException;
+
 class ResourcePath extends AbstractPath
 {
     /**
@@ -49,5 +51,7 @@ class ResourcePath extends AbstractPath
             case 'destroy':
                 return 'delete';
         }
+
+        throw new RuntimeException(sprintf("Unknown verb '%s' in ResourcePath", $method));
     }
 }
