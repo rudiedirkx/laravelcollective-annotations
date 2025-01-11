@@ -24,21 +24,9 @@ trait EndpointTrait
     }
 
     /**
-     * Get the controller method for the given endpoint path.
-     *
-     * @param AbstractPath $path
-     *
-     * @return string
-     */
-    public function getMethodForPath(AbstractPath $path): string
-    {
-        return $path->method;
-    }
-
-    /**
      * Add the given path definition to the endpoint.
      *
-     * @param AbstractPath $path
+     * @param Path|ResourcePath $path
      *
      * @return void
      */

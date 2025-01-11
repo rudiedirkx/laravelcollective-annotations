@@ -21,14 +21,14 @@ interface EndpointInterface
     /**
      * Determine if the endpoint has any paths.
      *
-     * @var bool
+     * @return bool
      */
     public function hasPaths(): bool;
 
     /**
      * Get all the path definitions for an endpoint.
      *
-     * @return array
+     * @return list<Path|ResourcePath>
      */
     public function getPaths(): array;
 
@@ -40,13 +40,4 @@ interface EndpointInterface
      * @return void
      */
     public function addPath(AbstractPath $path);
-
-    /**
-     * Get the controller method for the given endpoint path.
-     *
-     * @param AbstractPath $path
-     *
-     * @return string
-     */
-    public function getMethodForPath(AbstractPath $path): string;
 }

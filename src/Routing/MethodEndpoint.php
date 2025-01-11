@@ -26,7 +26,7 @@ class MethodEndpoint implements EndpointInterface
     /**
      * The route paths for the definition.
      *
-     * @var array[Path]
+     * @var list<Path>
      */
     public $paths = [];
 

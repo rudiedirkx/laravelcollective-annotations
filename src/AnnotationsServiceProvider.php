@@ -5,15 +5,12 @@ namespace Collective\Annotations;
 use Collective\Annotations\Console\EventScanCommand;
 use Collective\Annotations\Console\ModelScanCommand;
 use Collective\Annotations\Console\RouteScanCommand;
-use Collective\Annotations\Database\Eloquent\Annotations\AnnotationStrategy as ModelScanAnnotationStrategy;
 use Collective\Annotations\Database\Eloquent\Attributes\AttributeStrategy as ModelScanAttributeStrategy;
 use Collective\Annotations\Database\Scanner as ModelScanner;
 use Collective\Annotations\Database\ScanStrategyInterface as ModelScanStrategy;
-use Collective\Annotations\Events\Annotations\AnnotationStrategy as EventsScanAnnotationStrategy;
 use Collective\Annotations\Events\Attributes\AttributeStrategy as EventsScanAttributeStrategy;
 use Collective\Annotations\Events\Scanner as EventScanner;
 use Collective\Annotations\Events\ScanStrategyInterface as EventsScanStrategy;
-use Collective\Annotations\Routing\Annotations\AnnotationStrategy as RouteScanAnnotationStrategy;
 use Collective\Annotations\Routing\Attributes\AttributeStrategy as RouteScanAttributeStrategy;
 use Collective\Annotations\Routing\Scanner as RouteScanner;
 use Collective\Annotations\Routing\ScanStrategyInterface as RouteScanStrategy;
@@ -109,7 +106,6 @@ class AnnotationsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerAnnotationStrategies();
         $this->determineStrategy();
 
         $this->registerRouteScanner();
@@ -183,36 +179,6 @@ class AnnotationsServiceProvider extends ServiceProvider
         });
     }
 
-    protected function registerAnnotationStrategies()
-    {
-        $this->app->singleton(ModelScanAnnotationStrategy::class, function ($app) {
-            $strategy = new ModelScanAnnotationStrategy();
-            $strategy->addAnnotationNamespace(
-                'Collective\Annotations\Database\Eloquent\Annotations\Annotations',
-                __DIR__ . '/Database/Eloquent/Annotations/Annotations'
-            );
-            return $strategy;
-        });
-
-        $this->app->singleton(EventsScanAnnotationStrategy::class, function ($app) {
-            $strategy = new EventsScanAnnotationStrategy();
-            $strategy->addAnnotationNamespace(
-                'Collective\Annotations\Events\Annotations\Annotations',
-                __DIR__ . '/Events/Annotations/Annotations'
-            );
-            return $strategy;
-        });
-
-        $this->app->singleton(RouteScanAnnotationStrategy::class, function ($app) {
-            $strategy = new RouteScanAnnotationStrategy();
-            $strategy->addAnnotationNamespace(
-                'Collective\Annotations\Routing\Annotations\Annotations',
-                __DIR__ . '/Routing/Annotations/Annotations'
-            );
-            return $strategy;
-        });
-    }
-
     protected function determineStrategy()
     {
         $this->app->bind(ModelScanStrategy::class, ModelScanAttributeStrategy::class);
@@ -248,33 +214,6 @@ class AnnotationsServiceProvider extends ServiceProvider
     protected function registerModelScanner()
     {
         $this->app->singleton('annotations.model.scanner', ModelScanner::class);
-    }
-
-    /**
-     * Add annotation classes to the event scanner.
-     *
-     * @param EventsScanAnnotationStrategy $strategy
-     */
-    public function addEventAnnotations(EventsScanAnnotationStrategy $strategy)
-    {
-    }
-
-    /**
-     * Add annotation classes to the route scanner.
-     *
-     * @param RouteScanAnnotationStrategy $strategy
-     */
-    public function addRoutingAnnotations(RouteScanAnnotationStrategy $strategy)
-    {
-    }
-
-    /**
-     * Add annotation classes to the model scanner.
-     *
-     * @param ModelScanAnnotationStrategy $strategy
-     */
-    public function addModelAnnotations(ModelScanAnnotationStrategy $strategy)
-    {
     }
 
     /**
@@ -518,7 +457,7 @@ class AnnotationsServiceProvider extends ServiceProvider
      * will scan for classes within the project's app directory.
      *
      * @param string $namespace the namespace to search
-     * @param null   $base
+     * @param ?string $base
      *
      * @return array
      */

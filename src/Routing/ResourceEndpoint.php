@@ -29,7 +29,7 @@ class ResourceEndpoint implements EndpointInterface
      *
      * This corresponds to a path for each applicable resource method.
      *
-     * @var ResourcePath[]
+     * @var list<ResourcePath>
      */
     public $paths;
 

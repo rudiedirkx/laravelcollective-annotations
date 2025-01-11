@@ -7,7 +7,7 @@ abstract class AbstractPath
     /**
      * The HTTP verb the route responds to.
      *
-     * @var array
+     * @var string
      */
     public $verb;
 

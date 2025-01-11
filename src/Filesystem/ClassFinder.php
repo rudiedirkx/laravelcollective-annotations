@@ -38,6 +38,7 @@ class ClassFinder
                 return ltrim($namespace.'\\'.$this->getClass($key + 2, $tokens), '\\');
             }
         }
+        return null;
     }
 
     /**
@@ -58,6 +59,7 @@ class ClassFinder
                 return $namespace;
             }
         }
+        return null;
     }
 
     /**
@@ -78,6 +80,7 @@ class ClassFinder
                 return $class;
             }
         }
+        return null;
     }
 
     /**

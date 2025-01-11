@@ -29,7 +29,7 @@ class Where extends Meta
     public function modifyCollection(EndpointCollection $endpoints, ReflectionClass $class)
     {
         foreach ($endpoints->getAllPaths() as $path) {
-            $path->where = array_merge($path->where, $this->value);
+            $path->where = array_merge($path->where, (array) $this->values);
         }
     }
 }

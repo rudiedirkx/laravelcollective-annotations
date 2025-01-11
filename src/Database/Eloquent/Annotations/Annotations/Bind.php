@@ -12,7 +12,7 @@ class Bind implements BindInterface
     /**
      * The binding the annotation binds the model to.
      *
-     * @var array
+     * @var string
      */
     protected $binding;
 

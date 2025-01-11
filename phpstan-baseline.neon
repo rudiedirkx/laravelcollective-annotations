@@ -1,0 +1,19 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Call to an undefined method Illuminate\\Container\\Container\:\:getNamespace\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/AnnotationsServiceProvider.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Foundation\\Application\:\:routesAreCached\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/AnnotationsServiceProvider.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Container\\Container\:\:getNamespace\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Console/RouteScanCommand.php

@@ -11,6 +11,11 @@ use ReflectionClass;
 
 /**
  * @Annotation
+ *
+ * @property ?string $value
+ * @property ?array<string, string> $names
+ * @property ?list<string> $only
+ * @property ?list<string> $except
  */
 class Resource extends Meta
 {
