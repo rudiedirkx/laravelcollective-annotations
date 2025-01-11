@@ -11,6 +11,7 @@ class BasicEventHandler
      * @Hears("BasicEventFired")
      */
     #[Hears(['BasicEventFired'])]
+    #[\ReturnTypeWillChange()]
     public function handle(BasicEvent $event)
     {
         // do things

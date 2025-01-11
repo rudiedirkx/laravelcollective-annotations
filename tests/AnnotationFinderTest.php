@@ -1,8 +1,9 @@
 <?php
 
 use Collective\Annotations\AnnotationFinder;
-use PHPUnit\Framework\TestCase;
 use Mockery as m;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 
 class AnnotationFinderTest extends TestCase
 {
@@ -19,8 +20,6 @@ class AnnotationFinderTest extends TestCase
     }
 
     /**
-     * @dataProvider scannedChecksDataProvider
-     *
      * @covers \Collective\Annotations\AnnotationFinder::routesAreScanned
      * @covers \Collective\Annotations\AnnotationFinder::getScannedRoutesPath
      * @covers \Collective\Annotations\AnnotationFinder::eventsAreScanned
@@ -28,6 +27,7 @@ class AnnotationFinderTest extends TestCase
      * @covers \Collective\Annotations\AnnotationFinder::modelsAreScanned
      * @covers \Collective\Annotations\AnnotationFinder::getScannedModelsPath
      */
+    #[DataProvider("scannedChecksDataProvider")]
     public function testRoutesAreScannedReturnsTrue($filepath, $found, $method, $expected)
     {
         $files = m::mock('Illuminate\Filesystem\Filesystem');
@@ -46,7 +46,7 @@ class AnnotationFinderTest extends TestCase
         $this->assertEquals($expected, (new AnnotationFinder($this->app))->$method());
     }
 
-    public function scannedChecksDataProvider()
+    static public function scannedChecksDataProvider()
     {
         return [
             'routesScanned' => [

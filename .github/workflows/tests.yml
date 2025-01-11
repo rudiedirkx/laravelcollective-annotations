@@ -1,0 +1,22 @@
+name: Tests
+
+on:
+  - push
+
+jobs:
+  phpstan:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        actions:
+          - name: phpunit
+            run: ./vendor/bin/phpunit --display-deprecations --display-phpunit-deprecations
+    name: ${{ matrix.actions.name }}
+    steps:
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+      - uses: actions/checkout@v4
+      - uses: ramsey/composer-install@v3
+      - run: ${{ matrix.actions.run }}

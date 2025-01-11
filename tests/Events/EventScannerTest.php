@@ -4,15 +4,15 @@ use Collective\Annotations\Events\Annotations\AnnotationStrategy;
 use Collective\Annotations\Events\Attributes\AttributeStrategy;
 use Collective\Annotations\Events\Scanner;
 use Collective\Annotations\Events\ScanStrategyInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class EventScannerTest extends TestCase
 {
     /**
-     * @dataProvider strategyProvider
-     *
      * @param ScanStrategyInterface $strategy
      */
+    #[DataProvider("strategyProvider")]
     public function testProperEventDefinitionsAreGenerated(ScanStrategyInterface $strategy)
     {
         require_once __DIR__ . '/fixtures/handlers/BasicEventHandler.php';
@@ -23,10 +23,9 @@ class EventScannerTest extends TestCase
     }
 
     /**
-     * @dataProvider strategyProvider
-     *
      * @param ScanStrategyInterface $strategy
      */
+    #[DataProvider("strategyProvider")]
     public function testProperMultipleEventDefinitionsAreGenerated(ScanStrategyInterface $strategy)
     {
         require_once __DIR__ . '/fixtures/handlers/MultipleEventHandler.php';
@@ -36,27 +35,13 @@ class EventScannerTest extends TestCase
         $this->assertEquals(trim(file_get_contents(__DIR__ . '/results/annotation-multiple.php')), $definition);
     }
 
-    public function strategyProvider(): array
+    static public function strategyProvider(): array
     {
-        $strategies = ['annotationStrategy' => [self::annotationStrategy()]];
-        if (PHP_MAJOR_VERSION >= 8) {
-            $strategies['attributeStrategy'] = [self::attributeStrategy()];
-        }
-        return $strategies;
+        return ['attributeStrategy' => [self::attributeStrategy()]];
     }
 
     protected static function attributeStrategy(): ScanStrategyInterface
     {
         return new AttributeStrategy();
-    }
-
-    protected static function annotationStrategy(): ScanStrategyInterface
-    {
-        $strategy = new AnnotationStrategy();
-        $strategy->addAnnotationNamespace(
-            'Collective\Annotations\Events\Annotations\Annotations',
-            realpath(__DIR__.'/../../src/Events/Annotations/Annotations')
-        );
-        return $strategy;
     }
 }

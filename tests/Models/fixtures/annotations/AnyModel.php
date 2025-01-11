@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
  * @Bind("users")
  */
 #[Bind('users')]
+#[\AllowDynamicProperties]
 class User extends Eloquent
 {
 }

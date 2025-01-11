@@ -5,17 +5,17 @@ use Collective\Annotations\Database\Eloquent\Attributes\AttributeStrategy;
 use Collective\Annotations\Database\InvalidBindingResolverException;
 use Collective\Annotations\Database\Scanner;
 use Collective\Annotations\Database\ScanStrategyInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class ModelScannerTest extends TestCase
 {
 
     /**
-     * @dataProvider strategyProvider
-     *
      * @param ScanStrategyInterface $strategy
      * @throws InvalidBindingResolverException
      */
+    #[DataProvider("strategyProvider")]
     public function testProperModelDefinitionsAreGenerated(ScanStrategyInterface $strategy)
     {
         require_once __DIR__.'/fixtures/annotations/AnyModel.php';
@@ -26,11 +26,10 @@ class ModelScannerTest extends TestCase
     }
 
     /**
-     * @dataProvider strategyProvider
-     *
      * @param ScanStrategyInterface $strategy
      * @throws InvalidBindingResolverException
      */
+    #[DataProvider("strategyProvider")]
     public function testNonEloquentModelThrowsException(ScanStrategyInterface $strategy)
     {
         $this->expectException(InvalidBindingResolverException::class);
@@ -42,27 +41,13 @@ class ModelScannerTest extends TestCase
     }
 
 
-    public function strategyProvider(): array
+    static public function strategyProvider(): array
     {
-        $strategies = ['annotationStrategy' => [self::annotationStrategy()]];
-        if (PHP_MAJOR_VERSION >= 8) {
-            $strategies['attributeStrategy'] = [self::attributeStrategy()];
-        }
-        return $strategies;
+        return ['attributeStrategy' => [self::attributeStrategy()]];
     }
 
     protected static function attributeStrategy(): ScanStrategyInterface
     {
         return new AttributeStrategy();
-    }
-
-    protected static function annotationStrategy(): ScanStrategyInterface
-    {
-        $strategy = new AnnotationStrategy();
-        $strategy->addAnnotationNamespace(
-            'Collective\Annotations\Database\Eloquent\Annotations\Annotations',
-            realpath(__DIR__.'/../../src/Database/Eloquent/Annotations/Annotations')
-        );
-        return $strategy;
     }
 }

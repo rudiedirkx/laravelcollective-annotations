@@ -27,7 +27,7 @@ trait AnnotationStrategyTrait
      * @param string|null $path
      * @return AnnotationStrategyTrait
      */
-    public function addAnnotationNamespace(string $namespace, string $path = null): self
+    public function addAnnotationNamespace(string $namespace, ?string $path = null): self
     {
         $this->namespaces[] = $namespace;
 

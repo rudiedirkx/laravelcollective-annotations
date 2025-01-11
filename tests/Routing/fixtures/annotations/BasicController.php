@@ -22,6 +22,7 @@ use Collective\Annotations\Routing\Attributes\Attributes\Where;
 #[Middleware(name: 'BarMiddleware')]
 #[Middleware(name: 'BoomMiddleware', options: ['only' => ['index']])]
 #[Where(['id'=> 'regex'])]
+#[\AllowDynamicProperties]
 class BasicController
 {
     /**
@@ -30,6 +31,7 @@ class BasicController
      * @return Response
      */
     #[Middleware(name: 'BazMiddleware')]
+    #[\ReturnTypeWillChange]
     public function index()
     {
     }
