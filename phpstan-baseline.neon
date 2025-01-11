@@ -17,3 +17,15 @@ parameters:
 			identifier: method.notFound
 			count: 1
 			path: src/Console/RouteScanCommand.php
+
+		-
+			message: '#^Access to an undefined property Collective\\Annotations\\Routing\\EndpointInterface\:\:\$classMiddleware\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Routing/Annotations/Annotations/Middleware.php
+
+		-
+			message: '#^Method Collective\\Annotations\\Routing\\Annotations\\Annotations\\Resource\:\:getEndpointsWithResourceMethods\(\) should return array\<Collective\\Annotations\\Routing\\MethodEndpoint\> but returns array\<Collective\\Annotations\\Routing\\EndpointInterface\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Routing/Annotations/Annotations/Resource.php
