@@ -11,6 +11,7 @@ use Collective\Annotations\Database\ScanStrategyInterface as ModelScanStrategy;
 use Collective\Annotations\Events\Attributes\AttributeStrategy as EventsScanAttributeStrategy;
 use Collective\Annotations\Events\Scanner as EventScanner;
 use Collective\Annotations\Events\ScanStrategyInterface as EventsScanStrategy;
+use Collective\Annotations\Filesystem\ClassFinder;
 use Collective\Annotations\Routing\Attributes\AttributeStrategy as RouteScanAttributeStrategy;
 use Collective\Annotations\Routing\Scanner as RouteScanner;
 use Collective\Annotations\Routing\ScanStrategyInterface as RouteScanStrategy;
@@ -150,7 +151,7 @@ class AnnotationsServiceProvider extends ServiceProvider
      */
     protected function registerEventScanCommand()
     {
-        $this->app->singleton('command.event.scan', function ($app) {
+        $this->app->singleton('command.event.scan', function (Application $app) {
             return new EventScanCommand($app['files'], $this);
         });
     }
@@ -162,7 +163,7 @@ class AnnotationsServiceProvider extends ServiceProvider
      */
     protected function registerRouteScanCommand()
     {
-        $this->app->singleton('command.route.scan', function ($app) {
+        $this->app->singleton('command.route.scan', function (Application $app) {
             return new RouteScanCommand($app['files'], $this);
         });
     }
@@ -174,7 +175,7 @@ class AnnotationsServiceProvider extends ServiceProvider
      */
     protected function registerModelScanCommand()
     {
-        $this->app->singleton('command.model.scan', function ($app) {
+        $this->app->singleton('command.model.scan', function (Application $app) {
             return new ModelScanCommand($app['files'], $this);
         });
     }
@@ -250,6 +251,7 @@ class AnnotationsServiceProvider extends ServiceProvider
             return;
         }
 
+        /** @var EventScanner $scanner */
         $scanner = $this->app->make('annotations.event.scanner');
 
         $scanner->setClassesToScan($scans);
@@ -266,8 +268,6 @@ class AnnotationsServiceProvider extends ServiceProvider
      */
     protected function loadScannedEvents()
     {
-        $events = $this->app['Illuminate\Contracts\Events\Dispatcher'];
-
         require $this->finder->getScannedEventsPath();
     }
 
@@ -302,6 +302,7 @@ class AnnotationsServiceProvider extends ServiceProvider
             return;
         }
 
+        /** @var RouteScanner $scanner */
         $scanner = $this->app->make('annotations.route.scanner');
 
         $scanner->setClassesToScan($scans);
@@ -356,6 +357,7 @@ class AnnotationsServiceProvider extends ServiceProvider
             return;
         }
 
+        /** @var ModelScanner $scanner */
         $scanner = $this->app->make('annotations.model.scanner');
 
         $scanner->setClassesToScan($scans);
@@ -468,7 +470,10 @@ class AnnotationsServiceProvider extends ServiceProvider
     {
         $directory = ($base ?: $this->app->make('path')).'/'.$this->convertNamespaceToPath($namespace);
 
-        return $this->app->make('Collective\Annotations\Filesystem\ClassFinder')->findClasses($directory);
+        /** @var ClassFinder $finder */
+        $finder = $this->app->make('Collective\Annotations\Filesystem\ClassFinder');
+
+        return $finder->findClasses($directory);
     }
 
     /**

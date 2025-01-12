@@ -5,8 +5,8 @@ parameters:
     paths:
         - src/
         # - tests/
-#    checkExplicitMixed: true
-#    checkImplicitMixed: true
+    checkExplicitMixed: true
+    checkImplicitMixed: true
     excludePaths:
         - tests/Events/fixtures
         - tests/Filesystem/fixtures

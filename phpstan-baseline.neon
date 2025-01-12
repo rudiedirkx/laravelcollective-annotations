@@ -1,6 +1,36 @@
 parameters:
 	ignoreErrors:
 		-
+			message: '#^Binary operation "\." between mixed and ''/framework/events…'' results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: src/AnnotationFinder.php
+
+		-
+			message: '#^Binary operation "\." between mixed and ''/framework/models…'' results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: src/AnnotationFinder.php
+
+		-
+			message: '#^Binary operation "\." between mixed and ''/framework/routes…'' results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: src/AnnotationFinder.php
+
+		-
+			message: '#^Cannot call method exists\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 3
+			path: src/AnnotationFinder.php
+
+		-
+			message: '#^Binary operation "\." between mixed and ''/'' results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: src/AnnotationsServiceProvider.php
+
+		-
 			message: '#^Call to an undefined method Illuminate\\Container\\Container\:\:getNamespace\(\)\.$#'
 			identifier: method.notFound
 			count: 1
@@ -13,6 +43,24 @@ parameters:
 			path: src/AnnotationsServiceProvider.php
 
 		-
+			message: '#^Binary operation "\." between mixed and ''/framework/events…'' results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: src/Console/EventScanCommand.php
+
+		-
+			message: '#^Binary operation "\." between mixed and ''/framework/models…'' results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: src/Console/ModelScanCommand.php
+
+		-
+			message: '#^Binary operation "\." between mixed and ''/framework/routes…'' results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: src/Console/RouteScanCommand.php
+
+		-
 			message: '#^Call to an undefined method Illuminate\\Container\\Container\:\:getNamespace\(\)\.$#'
 			identifier: method.notFound
 			count: 1
@@ -21,6 +69,12 @@ parameters:
 		-
 			message: '#^Access to an undefined property Collective\\Annotations\\Routing\\EndpointInterface\:\:\$classMiddleware\.$#'
 			identifier: property.notFound
+			count: 1
+			path: src/Routing/Annotations/Annotations/Middleware.php
+
+		-
+			message: '#^Cannot access an offset on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: src/Routing/Annotations/Annotations/Middleware.php
 

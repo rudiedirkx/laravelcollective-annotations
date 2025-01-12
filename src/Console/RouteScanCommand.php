@@ -4,6 +4,7 @@ namespace Collective\Annotations\Console;
 
 use Collective\Annotations\AnnotationsServiceProvider;
 use Collective\Annotations\DetectsApplicationNamespace;
+use Collective\Annotations\Routing\Scanner as RouteScanner;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Input\InputOption;
@@ -77,6 +78,7 @@ class RouteScanCommand extends Command
      */
     protected function getRouteDefinitions()
     {
+        /** @var RouteScanner $scanner */
         $scanner = $this->laravel->make('annotations.route.scanner');
 
         $scanner->setClassesToScan($this->provider->routeScans());
