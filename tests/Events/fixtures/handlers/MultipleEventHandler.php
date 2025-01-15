@@ -26,5 +26,18 @@ class MultipleEventHandler
     {
         // do things
     }
+
+    #[Hears(['BasicEventFired', 'AnotherEventFired'])]
+    public function handleBothEventsInOne($event)
+    {
+        // do things
+    }
+
+    #[Hears('BasicEventFired')]
+    #[Hears('AnotherEventFired')]
+    public function handleBothEventsInTwo($event)
+    {
+        // do things
+    }
 }
 
