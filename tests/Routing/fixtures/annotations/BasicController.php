@@ -8,14 +8,6 @@ use Collective\Annotations\Routing\Attributes\Attributes\Put;
 use Collective\Annotations\Routing\Attributes\Attributes\Resource;
 use Collective\Annotations\Routing\Attributes\Attributes\Where;
 
-/**
- * @Resource("foobar/photos", only={"index", "update"}, names={"index": "index.name"})
- * @Controller(domain="{id}.account.com")
- * @Middleware("FooMiddleware")
- * @Middleware("BarMiddleware")
- * @Middleware("BoomMiddleware", only={"index"})
- * @Where({"id": "regex"})
- */
 #[Resource(name: 'foobar/photos', only: ['index', 'update'], names: ['index' => 'index.name'])]
 #[Controller(domain: '{id}.account.com')]
 #[Middleware(name: 'FooMiddleware')]
@@ -26,8 +18,6 @@ use Collective\Annotations\Routing\Attributes\Attributes\Where;
 class BasicController
 {
     /**
-     * @Middleware("BazMiddleware")
-     *
      * @return Response
      */
     #[Middleware(name: 'BazMiddleware')]
@@ -44,8 +34,7 @@ class BasicController
     }
 
     /**
-     * @Put("/more/{id}", after="log")
-     * @Middleware("QuxMiddleware")
+     * Bla
      */
     #[Put(path: '/more/{id}', after: 'log')]
     #[Middleware(name: 'QuxMiddleware')]

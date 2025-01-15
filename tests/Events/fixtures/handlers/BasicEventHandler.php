@@ -7,9 +7,6 @@ use Collective\Annotations\Events\Attributes\Attributes\Hears;
 
 class BasicEventHandler
 {
-    /**
-     * @Hears("BasicEventFired")
-     */
     #[Hears(['BasicEventFired'])]
     #[\ReturnTypeWillChange()]
     public function handle(BasicEvent $event)
