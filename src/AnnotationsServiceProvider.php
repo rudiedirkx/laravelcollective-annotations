@@ -256,9 +256,7 @@ class AnnotationsServiceProvider extends ServiceProvider
 
         $scanner->setClassesToScan($scans);
 
-        file_put_contents(
-          $this->finder->getScannedEventsPath(), '<?php '.PHP_EOL.PHP_EOL.$scanner->getEventDefinitions().PHP_EOL
-        );
+        $this->saveScannedCache($this->finder->getScannedEventsPath(), $scanner->getEventDefinitions());
     }
 
     /**
@@ -307,9 +305,7 @@ class AnnotationsServiceProvider extends ServiceProvider
 
         $scanner->setClassesToScan($scans);
 
-        file_put_contents(
-            $this->finder->getScannedRoutesPath(), '<?php '.PHP_EOL.PHP_EOL.$scanner->getRouteDefinitions().PHP_EOL
-        );
+        $this->saveScannedCache($this->finder->getScannedRoutesPath(), $scanner->getRouteDefinitions());
     }
 
     /**
@@ -362,9 +358,7 @@ class AnnotationsServiceProvider extends ServiceProvider
 
         $scanner->setClassesToScan($scans);
 
-        file_put_contents(
-          $this->finder->getScannedModelsPath(), '<?php '.PHP_EOL.PHP_EOL.$scanner->getModelDefinitions().PHP_EOL
-        );
+        $this->saveScannedCache($this->finder->getScannedModelsPath(), $scanner->getModelDefinitions());
     }
 
     /**
@@ -484,5 +478,16 @@ class AnnotationsServiceProvider extends ServiceProvider
     protected function getAllClasses()
     {
         return $this->getClassesFromNamespace($this->getAppNamespace());
+    }
+
+    /**
+     * Save the new events/models/routes cache, IF it has changed.
+     */
+    protected function saveScannedCache(string $filepath, string $code): void
+    {
+        $code = '<?php '.PHP_EOL.PHP_EOL.$code.PHP_EOL;
+        if (!file_exists($filepath) || file_get_contents($filepath) != $code) {
+            file_put_contents($filepath, $code);
+        }
     }
 }
