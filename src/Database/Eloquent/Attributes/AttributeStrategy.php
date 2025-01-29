@@ -2,6 +2,7 @@
 
 namespace Collective\Annotations\Database\Eloquent\Attributes;
 
+use Collective\Annotations\Database\Eloquent\Attributes\Attributes\Bind;
 use Collective\Annotations\Database\ScanStrategyInterface;
 use ReflectionAttribute;
 use ReflectionClass;
@@ -13,7 +14,7 @@ class AttributeStrategy implements ScanStrategyInterface
      */
     public function support(ReflectionClass $class): bool
     {
-        return count($class->getAttributes()) > 0;
+        return count($class->getAttributes(Bind::class)) > 0;
     }
 
     /**
@@ -23,7 +24,7 @@ class AttributeStrategy implements ScanStrategyInterface
     {
         return array_map(
             fn (ReflectionAttribute $attribute) => $attribute->newInstance(),
-            $class->getAttributes()
+            $class->getAttributes(Bind::class),
         );
     }
 }

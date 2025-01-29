@@ -13,7 +13,7 @@ class ResourceEndpoint implements EndpointInterface
     /**
      * All the resource controller methods.
      *
-     * @var array
+     * @var list<string>
      */
     protected $methods = ['index', 'create', 'store', 'show', 'edit', 'update', 'destroy'];
 
@@ -29,7 +29,7 @@ class ResourceEndpoint implements EndpointInterface
      *
      * This corresponds to a path for each applicable resource method.
      *
-     * @var ResourcePath[]
+     * @var list<ResourcePath>
      */
     public $paths;
 
@@ -43,28 +43,28 @@ class ResourceEndpoint implements EndpointInterface
     /**
      * The array of route names for the resource.
      *
-     * @var array
+     * @var array<string, string>
      */
     public $names = [];
 
     /**
      * The only methods that should be included.
      *
-     * @var array
+     * @var list<string>
      */
     public $only = [];
 
     /**
      * The methods that should not be included.
      *
-     * @var array
+     * @var list<string>
      */
     public $except = [];
 
     /**
      * The class level "inherited" middleware that apply to the resource.
      *
-     * @var array
+     * @var list<array{name: string, only: list<string>, except: list<string>}>
      */
     public $classMiddleware = [];
 
@@ -73,14 +73,14 @@ class ResourceEndpoint implements EndpointInterface
      *
      * This array is keyed by resource method name (index, create, etc).
      *
-     * @var array
+     * @var array<string, list<string>>
      */
     public $middleware = [];
 
     /**
      * Create a new route definition instance.
      *
-     * @param array $attributes
+     * @param AssocArray $attributes
      *
      * @return void
      */
@@ -108,7 +108,7 @@ class ResourceEndpoint implements EndpointInterface
     /**
      * Get the methods to be included in the resource.
      *
-     * @return array
+     * @return list<string>
      */
     protected function getIncludedMethods()
     {
@@ -172,8 +172,7 @@ class ResourceEndpoint implements EndpointInterface
      * This will also merge in any of the middleware applied at the route level.
      *
      * @param ResourcePath $path
-     *
-     * @return array
+     * @return list<string>
      */
     protected function getMiddleware(ResourcePath $path): array
     {
@@ -186,17 +185,17 @@ class ResourceEndpoint implements EndpointInterface
      * Get the class middleware for the given path.
      *
      * @param ResourcePath $path
-     *
-     * @return Collection
+     * @return Collection<int, string>
      */
     protected function getClassMiddlewareForPath(ResourcePath $path): Collection
     {
-        return Collection::make($this->classMiddleware)->filter(function ($m) use ($path) {
-            return $this->middlewareAppliesToMethod($path->method, $m);
-        })
-        ->map(function ($m) {
-            return $m['name'];
-        });
+        return Collection::make($this->classMiddleware)
+            ->filter(function ($m) use ($path) {
+                return $this->middlewareAppliesToMethod($path->method, $m);
+            })
+            ->map(function ($m) {
+                return $m['name'];
+            });
     }
 
     /**
@@ -204,7 +203,7 @@ class ResourceEndpoint implements EndpointInterface
      *
      * @param ResourcePath $path
      *
-     * @return array
+     * @return array<string, string>
      */
     protected function getNames(ResourcePath $path): array
     {

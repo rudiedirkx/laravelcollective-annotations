@@ -86,6 +86,9 @@ class AnnotationsToAttributesRector extends AbstractRector {
 		return $node;
 	}
 
+    /**
+     * @param Class_|ClassMethod $node
+     */
 	protected function addAnnotation(Node $node, string $annotation) : bool {
 		$annotation = trim($annotation, '@');
 		if (preg_match('#=\s*\{#', $annotation) || str_contains($annotation, '({')) {

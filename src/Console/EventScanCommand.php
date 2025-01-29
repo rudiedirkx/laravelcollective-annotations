@@ -3,7 +3,7 @@
 namespace Collective\Annotations\Console;
 
 use Collective\Annotations\AnnotationsServiceProvider;
-use Collective\Annotations\Events\Annotations\Scanner;
+use Collective\Annotations\Events\Scanner as EventScanner;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Input\InputOption;
@@ -71,6 +71,7 @@ class EventScanCommand extends Command
      */
     protected function getEventDefinitions()
     {
+        /** @var EventScanner $scanner */
         $scanner = $this->laravel->make('annotations.event.scanner');
 
         $scanner->setClassesToScan($this->provider->eventScans());
@@ -91,7 +92,7 @@ class EventScanCommand extends Command
     /**
      * Get the console command options.
      *
-     * @return array
+     * @return list<list<mixed>>
      */
     protected function getOptions()
     {

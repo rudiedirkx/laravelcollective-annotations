@@ -10,6 +10,10 @@ use ReflectionMethod;
 
 /**
  * @Annotation
+ *
+ * @property ?string $value
+ * @property ?list<string> $only
+ * @property ?list<string> $except
  */
 class Middleware extends Meta
 {

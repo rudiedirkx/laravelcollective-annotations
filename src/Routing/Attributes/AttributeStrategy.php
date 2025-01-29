@@ -2,6 +2,7 @@
 
 namespace Collective\Annotations\Routing\Attributes;
 
+use Collective\Annotations\Routing\Meta;
 use Collective\Annotations\Routing\ScanStrategyInterface;
 use ReflectionAttribute;
 use ReflectionClass;
@@ -15,7 +16,7 @@ class AttributeStrategy implements ScanStrategyInterface
     {
         return array_map(
             fn (ReflectionAttribute $attribute) => $attribute->newInstance(),
-            $class->getAttributes()
+            $class->getAttributes(Meta::class, ReflectionAttribute::IS_INSTANCEOF),
         );
     }
 
@@ -28,7 +29,7 @@ class AttributeStrategy implements ScanStrategyInterface
 
         foreach ($class->getMethods() as $method) {
             if ($method->class == $class->name) {
-                $results = $method->getAttributes();
+                $results = $method->getAttributes(Meta::class, ReflectionAttribute::IS_INSTANCEOF);
 
                 if (count($results) > 0) {
                     $attributes[$method->name] = array_map(

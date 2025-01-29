@@ -7,14 +7,14 @@ abstract class AbstractPath
     /**
      * The HTTP verb the route responds to.
      *
-     * @var array
+     * @var string
      */
     public $verb;
 
     /**
      * The domain the route responds to.
      *
-     * @var string
+     * @var ?string
      */
     public $domain;
 
@@ -28,14 +28,14 @@ abstract class AbstractPath
     /**
      * The path's middleware.
      *
-     * @var array
+     * @var list<string>
      */
     public $middleware = [];
 
     /**
      * The path's "where" clauses.
      *
-     * @var array
+     * @var array<string, string>
      */
     public $where = [];
 }

@@ -6,19 +6,22 @@ use ArrayAccess;
 use ReflectionClass;
 use ReflectionMethod;
 
+/**
+ * @implements ArrayAccess<string, mixed>
+ */
 abstract class Meta implements ArrayAccess
 {
     /**
      * The value array.
      *
-     * @var array
+     * @var AssocArray
      */
     protected $values;
 
     /**
      * Create a new annotation instance.
      *
-     * @param array $values
+     * @param AssocArray $values
      *
      * @return void
      */

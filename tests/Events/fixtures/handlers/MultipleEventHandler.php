@@ -8,29 +8,34 @@ use Collective\Annotations\Events\Attributes\Attributes\Hears;
 
 class MultipleEventHandler
 {
-    /**
-     * @Hears("BasicEventFired")
-     */
     #[Hears('BasicEventFired')]
+    #[\ReturnTypeWillChange()]
     public function handleBasicEvent(BasicEvent $event)
     {
         // do things
     }
 
-    /**
-     * @Hears("BasicEventFired")
-     */
     #[Hears('BasicEventFired')]
     public function handleBasicEventAgain(BasicEvent $event)
     {
         // do things
     }
 
-    /**
-     * @Hears("AnotherEventFired")
-     */
     #[Hears('AnotherEventFired')]
     public function handleAnotherEvent(AnotherEvent $event)
+    {
+        // do things
+    }
+
+    #[Hears(['BasicEventFired', 'AnotherEventFired'])]
+    public function handleBothEventsInOne($event)
+    {
+        // do things
+    }
+
+    #[Hears('BasicEventFired')]
+    #[Hears('AnotherEventFired')]
+    public function handleBothEventsInTwo($event)
     {
         // do things
     }

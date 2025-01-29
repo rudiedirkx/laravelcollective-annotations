@@ -26,7 +26,7 @@ class MethodEndpoint implements EndpointInterface
     /**
      * The route paths for the definition.
      *
-     * @var array[Path]
+     * @var list<Path>
      */
     public $paths = [];
 
@@ -40,21 +40,21 @@ class MethodEndpoint implements EndpointInterface
     /**
      * All the class level "inherited" middleware defined for the pathless endpoint.
      *
-     * @var array
+     * @var list<array{name: string, only: list<string>, except: list<string>}>
      */
     public $classMiddleware = [];
 
     /**
      * All the middleware defined for the pathless endpoint.
      *
-     * @var array
+     * @var list<string>
      */
     public $middleware = [];
 
     /**
      * Create a new route definition instance.
      *
-     * @param array $attributes
+     * @param AssocArray $attributes
      *
      * @return void
      */
@@ -125,7 +125,7 @@ class MethodEndpoint implements EndpointInterface
      *
      * @param AbstractPath $path
      *
-     * @return Collection
+     * @return Collection<int, string>
      */
     protected function getClassMiddlewareForPath(AbstractPath $path): Collection
     {

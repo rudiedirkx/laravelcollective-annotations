@@ -8,6 +8,9 @@ use ReflectionClass;
 
 /**
  * @Annotation
+ *
+ * @property ?string $prefix
+ * @property ?string $domain
  */
 class Controller extends Meta
 {

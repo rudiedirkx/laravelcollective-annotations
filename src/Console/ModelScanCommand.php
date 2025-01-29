@@ -3,7 +3,7 @@
 namespace Collective\Annotations\Console;
 
 use Collective\Annotations\AnnotationsServiceProvider;
-use Collective\Annotations\Routing\Annotations\Scanner;
+use Collective\Annotations\Database\Scanner as ModelScanner;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 
@@ -70,6 +70,7 @@ class ModelScanCommand extends Command
      */
     protected function getRouteDefinitions()
     {
+        /** @var ModelScanner $scanner */
         $scanner = $this->laravel->make('annotations.model.scanner');
 
         $scanner->setClassesToScan($this->provider->modelScans());

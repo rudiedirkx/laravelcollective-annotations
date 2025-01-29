@@ -7,6 +7,14 @@ use Collective\Annotations\Routing\Path;
 use Collective\Annotations\Routing\Meta;
 use ReflectionMethod;
 
+/**
+ * @property ?string $domain
+ * @property ?string $value
+ * @property ?string $as
+ * @property ?list<string> $middleware
+ * @property ?array<string, string> $where
+ * @property ?bool $no_prefix
+ */
 abstract class Route extends Meta
 {
     /**

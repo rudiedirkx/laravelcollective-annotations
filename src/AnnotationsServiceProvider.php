@@ -5,15 +5,13 @@ namespace Collective\Annotations;
 use Collective\Annotations\Console\EventScanCommand;
 use Collective\Annotations\Console\ModelScanCommand;
 use Collective\Annotations\Console\RouteScanCommand;
-use Collective\Annotations\Database\Eloquent\Annotations\AnnotationStrategy as ModelScanAnnotationStrategy;
 use Collective\Annotations\Database\Eloquent\Attributes\AttributeStrategy as ModelScanAttributeStrategy;
 use Collective\Annotations\Database\Scanner as ModelScanner;
 use Collective\Annotations\Database\ScanStrategyInterface as ModelScanStrategy;
-use Collective\Annotations\Events\Annotations\AnnotationStrategy as EventsScanAnnotationStrategy;
 use Collective\Annotations\Events\Attributes\AttributeStrategy as EventsScanAttributeStrategy;
 use Collective\Annotations\Events\Scanner as EventScanner;
 use Collective\Annotations\Events\ScanStrategyInterface as EventsScanStrategy;
-use Collective\Annotations\Routing\Annotations\AnnotationStrategy as RouteScanAnnotationStrategy;
+use Collective\Annotations\Filesystem\ClassFinder;
 use Collective\Annotations\Routing\Attributes\AttributeStrategy as RouteScanAttributeStrategy;
 use Collective\Annotations\Routing\Scanner as RouteScanner;
 use Collective\Annotations\Routing\ScanStrategyInterface as RouteScanStrategy;
@@ -27,7 +25,7 @@ class AnnotationsServiceProvider extends ServiceProvider
     /**
      * The commands to be registered.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $commands = [
       'EventScan' => 'command.event.scan',
@@ -38,28 +36,28 @@ class AnnotationsServiceProvider extends ServiceProvider
     /**
      * The classes to scan for event annotations.
      *
-     * @var array
+     * @var list<string>
      */
     protected $scanEvents = [];
 
     /**
      * The classes to scan for route annotations.
      *
-     * @var array
+     * @var list<string>
      */
     protected $scanRoutes = [];
 
     /**
      * The classes to scan for model binding annotations.
      *
-     * @var array
+     * @var list<string>
      */
     protected $scanModels = [];
 
     /**
      * The namespace to scan for models in.
      *
-     * @var string
+     * @var ?string
      */
     protected $scanModelsInNamespace = null;
 
@@ -109,7 +107,6 @@ class AnnotationsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerAnnotationStrategies();
         $this->determineStrategy();
 
         $this->registerRouteScanner();
@@ -154,7 +151,7 @@ class AnnotationsServiceProvider extends ServiceProvider
      */
     protected function registerEventScanCommand()
     {
-        $this->app->singleton('command.event.scan', function ($app) {
+        $this->app->singleton('command.event.scan', function (Application $app) {
             return new EventScanCommand($app['files'], $this);
         });
     }
@@ -166,7 +163,7 @@ class AnnotationsServiceProvider extends ServiceProvider
      */
     protected function registerRouteScanCommand()
     {
-        $this->app->singleton('command.route.scan', function ($app) {
+        $this->app->singleton('command.route.scan', function (Application $app) {
             return new RouteScanCommand($app['files'], $this);
         });
     }
@@ -178,41 +175,14 @@ class AnnotationsServiceProvider extends ServiceProvider
      */
     protected function registerModelScanCommand()
     {
-        $this->app->singleton('command.model.scan', function ($app) {
+        $this->app->singleton('command.model.scan', function (Application $app) {
             return new ModelScanCommand($app['files'], $this);
         });
     }
 
-    protected function registerAnnotationStrategies()
-    {
-        $this->app->singleton(ModelScanAnnotationStrategy::class, function ($app) {
-            $strategy = new ModelScanAnnotationStrategy();
-            $strategy->addAnnotationNamespace(
-                'Collective\Annotations\Database\Eloquent\Annotations\Annotations',
-                __DIR__ . '/Database/Eloquent/Annotations/Annotations'
-            );
-            return $strategy;
-        });
-
-        $this->app->singleton(EventsScanAnnotationStrategy::class, function ($app) {
-            $strategy = new EventsScanAnnotationStrategy();
-            $strategy->addAnnotationNamespace(
-                'Collective\Annotations\Events\Annotations\Annotations',
-                __DIR__ . '/Events/Annotations/Annotations'
-            );
-            return $strategy;
-        });
-
-        $this->app->singleton(RouteScanAnnotationStrategy::class, function ($app) {
-            $strategy = new RouteScanAnnotationStrategy();
-            $strategy->addAnnotationNamespace(
-                'Collective\Annotations\Routing\Annotations\Annotations',
-                __DIR__ . '/Routing/Annotations/Annotations'
-            );
-            return $strategy;
-        });
-    }
-
+    /**
+     * @return void
+     */
     protected function determineStrategy()
     {
         $this->app->bind(ModelScanStrategy::class, ModelScanAttributeStrategy::class);
@@ -251,33 +221,6 @@ class AnnotationsServiceProvider extends ServiceProvider
     }
 
     /**
-     * Add annotation classes to the event scanner.
-     *
-     * @param EventsScanAnnotationStrategy $strategy
-     */
-    public function addEventAnnotations(EventsScanAnnotationStrategy $strategy)
-    {
-    }
-
-    /**
-     * Add annotation classes to the route scanner.
-     *
-     * @param RouteScanAnnotationStrategy $strategy
-     */
-    public function addRoutingAnnotations(RouteScanAnnotationStrategy $strategy)
-    {
-    }
-
-    /**
-     * Add annotation classes to the model scanner.
-     *
-     * @param ModelScanAnnotationStrategy $strategy
-     */
-    public function addModelAnnotations(ModelScanAnnotationStrategy $strategy)
-    {
-    }
-
-    /**
      * Load the annotated events.
      *
      * @return void
@@ -308,13 +251,12 @@ class AnnotationsServiceProvider extends ServiceProvider
             return;
         }
 
+        /** @var EventScanner $scanner */
         $scanner = $this->app->make('annotations.event.scanner');
 
         $scanner->setClassesToScan($scans);
 
-        file_put_contents(
-          $this->finder->getScannedEventsPath(), '<?php '.PHP_EOL.PHP_EOL.$scanner->getEventDefinitions().PHP_EOL
-        );
+        $this->saveScannedCache($this->finder->getScannedEventsPath(), $scanner->getEventDefinitions());
     }
 
     /**
@@ -324,8 +266,6 @@ class AnnotationsServiceProvider extends ServiceProvider
      */
     protected function loadScannedEvents()
     {
-        $events = $this->app['Illuminate\Contracts\Events\Dispatcher'];
-
         require $this->finder->getScannedEventsPath();
     }
 
@@ -360,13 +300,12 @@ class AnnotationsServiceProvider extends ServiceProvider
             return;
         }
 
+        /** @var RouteScanner $scanner */
         $scanner = $this->app->make('annotations.route.scanner');
 
         $scanner->setClassesToScan($scans);
 
-        file_put_contents(
-            $this->finder->getScannedRoutesPath(), '<?php '.PHP_EOL.PHP_EOL.$scanner->getRouteDefinitions().PHP_EOL
-        );
+        $this->saveScannedCache($this->finder->getScannedRoutesPath(), $scanner->getRouteDefinitions());
     }
 
     /**
@@ -414,13 +353,12 @@ class AnnotationsServiceProvider extends ServiceProvider
             return;
         }
 
+        /** @var ModelScanner $scanner */
         $scanner = $this->app->make('annotations.model.scanner');
 
         $scanner->setClassesToScan($scans);
 
-        file_put_contents(
-          $this->finder->getScannedModelsPath(), '<?php '.PHP_EOL.PHP_EOL.$scanner->getModelDefinitions().PHP_EOL
-        );
+        $this->saveScannedCache($this->finder->getScannedModelsPath(), $scanner->getModelDefinitions());
     }
 
     /**
@@ -440,7 +378,7 @@ class AnnotationsServiceProvider extends ServiceProvider
     /**
      * Get the classes to be scanned by the provider.
      *
-     * @return array
+     * @return list<string>
      */
     public function eventScans()
     {
@@ -454,7 +392,7 @@ class AnnotationsServiceProvider extends ServiceProvider
     /**
      * Get the classes to be scanned by the provider.
      *
-     * @return array
+     * @return list<string>
      */
     public function routeScans()
     {
@@ -478,7 +416,7 @@ class AnnotationsServiceProvider extends ServiceProvider
     /**
      * Get the classes to be scanned by the provider.
      *
-     * @return array
+     * @return list<string>
      */
     public function modelScans()
     {
@@ -518,24 +456,38 @@ class AnnotationsServiceProvider extends ServiceProvider
      * will scan for classes within the project's app directory.
      *
      * @param string $namespace the namespace to search
-     * @param null   $base
+     * @param ?string $base
      *
-     * @return array
+     * @return list<string>
      */
     public function getClassesFromNamespace($namespace, $base = null)
     {
         $directory = ($base ?: $this->app->make('path')).'/'.$this->convertNamespaceToPath($namespace);
 
-        return $this->app->make('Collective\Annotations\Filesystem\ClassFinder')->findClasses($directory);
+        /** @var ClassFinder $finder */
+        $finder = $this->app->make('Collective\Annotations\Filesystem\ClassFinder');
+
+        return $finder->findClasses($directory);
     }
 
     /**
      * Get a list of classes in the root namespace.
      *
-     * @return array
+     * @return list<string>
      */
     protected function getAllClasses()
     {
         return $this->getClassesFromNamespace($this->getAppNamespace());
+    }
+
+    /**
+     * Save the new events/models/routes cache, IF it has changed.
+     */
+    protected function saveScannedCache(string $filepath, string $code): void
+    {
+        $code = '<?php '.PHP_EOL.PHP_EOL.$code.PHP_EOL;
+        if (!file_exists($filepath) || file_get_contents($filepath) != $code) {
+            file_put_contents($filepath, $code);
+        }
     }
 }

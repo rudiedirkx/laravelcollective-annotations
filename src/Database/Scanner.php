@@ -12,6 +12,9 @@ class Scanner extends BaseScanner
      */
     protected $strategy;
 
+    /**
+     * @param list<class-string> $scan
+     */
     public function __construct(ScanStrategyInterface $strategy, array $scan = [])
     {
         $this->strategy = $strategy;

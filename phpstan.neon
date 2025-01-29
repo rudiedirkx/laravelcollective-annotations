@@ -1,0 +1,15 @@
+includes:
+    - phpstan-baseline.neon
+parameters:
+    level: 6
+    paths:
+        - src/
+    checkExplicitMixed: true
+    checkImplicitMixed: true
+    typeAliases:
+        AssocArray: 'array<string, mixed>'
+    reportUnmatchedIgnoredErrors: true
+    ignoreErrors:
+        - "#^Property .+ with generic class Reflection\\w+ does not specify its types#"
+        - "#^Method .+ has parameter .+ with generic class Reflection\\w+ but does not specify its types#"
+        - "#^Method .+ return type with generic class Reflection\\w+ does not specify its types#"

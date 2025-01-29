@@ -8,7 +8,7 @@ trait EndpointTrait
      * Determine if the middleware applies to a given method.
      *
      * @param string $method
-     * @param array  $middleware
+     * @param array{name: string, only: list<string>, except: list<string>} $middleware
      *
      * @return bool
      */
@@ -24,21 +24,9 @@ trait EndpointTrait
     }
 
     /**
-     * Get the controller method for the given endpoint path.
-     *
-     * @param AbstractPath $path
-     *
-     * @return string
-     */
-    public function getMethodForPath(AbstractPath $path): string
-    {
-        return $path->method;
-    }
-
-    /**
      * Add the given path definition to the endpoint.
      *
-     * @param AbstractPath $path
+     * @param Path|ResourcePath $path
      *
      * @return void
      */
@@ -50,7 +38,7 @@ trait EndpointTrait
     /**
      * Implode the given list into a comma separated string.
      *
-     * @param array $array
+     * @param array<int|string, string> $array
      *
      * @return string
      */
